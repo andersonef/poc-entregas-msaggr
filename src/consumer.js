@@ -1,8 +1,8 @@
 const connector = require('./connector')
-module.exports = (exchange, callback) => {
+module.exports = (exchange, queue, callback) => {
     connector(async (channel) => {
         await channel.assertExchange(exchange, 'fanout', {durable: false})
-        const q = await channel.assertQueue(exchange, {
+        const q = await channel.assertQueue(queue, {
             exclusive: false
         })
         await channel.bindQueue(q.queue, exchange, '')

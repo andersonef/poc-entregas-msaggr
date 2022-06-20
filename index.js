@@ -3,11 +3,12 @@ const consumer = require("./src/consumer");
 const producer = require("./src/producer");
 const inputExchange = 'events__shipment_created'
 const outputExchange = 'events__ms_aggr_output'
+const inputQueue = 'msaggr_input'
 
 require('dotenv').config()
 const prisma = new PrismaClient()
 
-consumer(inputExchange, async (channel, msg) => {
+consumer(inputExchange, inputQueue, async (channel, msg) => {
     try {
         console.log('chegou no consumer...')
         const updatedShipment = JSON.parse(msg.content.toString())
