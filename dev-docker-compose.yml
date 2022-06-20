@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  msaggrworker:
+    container_name: poc-entregas-msaggr
+    build: 
+      context: .
+      dockerfile: DevDockerfile
+    volumes:
+      - ".:/app"
+    networks:
+      - pocNetwork
+    depends_on:
+      - msaggrdb
+      - rabbit
+
+  msaggrdb:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: test
+      POSTGRES_USER: test
+      POSTGRES_DB: app
+    networks:
+      - pocNetwork
+
+networks:
+  pocNetwork:
+    name: poc-network
+    driver: bridge
